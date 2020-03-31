@@ -1,0 +1,37 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="author" content="Tamas Piros">
+  <link rel="stylesheet" href="">
+  <script src="wasm_exec.js"></script>
+  <script>
+    if (!WebAssembly.instantiateStreaming) {
+      WebAssembly.instantiateStreaming = async (resp, importObject) => {
+        const source = await (await resp).arrayBuffer();
+        return await WebAssembly.instantiate(source, importObject);
+      };
+    }
+
+    const go = new Go();
+    let mod, inst;
+
+    WebAssembly.instantiateStreaming(fetch("cube.wasm"), go.importObject).then(
+      async result => {
+        mod = result.module;
+        inst = result.instance;
+        await go.run(inst);
+      }
+    );
+  </script>
+</head>
+
+<body>
+  <input type="text" id="number" />
+  <button id="calculate" onClick="cube(document.getElementById('number').value)">Calculate</button>
+  <p id="result"></p>
+</body>
+</html>

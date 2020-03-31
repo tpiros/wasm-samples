@@ -1,0 +1,35 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="author" content="Tamas Piros">
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+  <input type="text" id="number" />
+  <button id="calculate">Calculate</button>
+  <p id="result"></p>
+
+  <script src="./sqrt.js"></script>
+  <script>
+    let api;
+    Module.onRuntimeInitialized = async _ => {
+      api = {
+        calculateSquare: Module.cwrap('int_sqrt', 'number', ['number']),
+      };
+    };
+
+    const btn = document.getElementById('calculate');
+    btn.addEventListener('click', () => {
+      const inputNumber = document.getElementById('number').value;
+      const result = document.getElementById('result');
+      result.innerHTML = api.calculateSquare(inputNumber)
+    });
+  </script>
+  
+</body>
+</html>
