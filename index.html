@@ -14,12 +14,12 @@
   <button id="calculate">Calculate</button>
   <p id="result"></p>
 
-  <script src="./sqrt.js"></script>
+  <script src="./square.js"></script>
   <script>
     let api;
     Module.onRuntimeInitialized = async _ => {
       api = {
-        calculateSquare: Module.cwrap('int_sqrt', 'number', ['number']),
+        calculateSquare: Module.cwrap('int_square', 'number', ['number']),
       };
     };
 
